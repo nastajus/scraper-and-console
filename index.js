@@ -1,6 +1,13 @@
 const rp = require('request-promise');
 const cheerio = require('cheerio');
 
+const YELLOW_COLOR = "#FDFF1D";
+const GREEN_COLOR = "#54FD01";
+const BLUE_COLOR = "#5AFEFE";
+const GRAY_COLOR = "#C0C0C0";
+const GREEN_PALE_COLOR = "#D1FFCC";
+const MAGENTA_COLOR = "#F51BFF";
+
 
 const options = {
 	uri: `https://www.w3schools.com/html/`,
@@ -23,7 +30,7 @@ rp(options)
 		//var test = data('h3');
 		//var test = data('span[style="color:brown"]').html();    //null
 		//var test = data('span[style="color:brown"]');    //1 item
-		var test = data('.w3-example').html();
+		var test = data('.w3-example').text();
 		console.log(test);
 
 
