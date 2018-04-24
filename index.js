@@ -3,16 +3,14 @@ const cheerio = require('cheerio');
 const fs = require('fs');
 const path = require('path');
 const mkdirp     = require('mkdirp');
-//public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-//public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-//public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
-//public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m"; //alternative temporarily selected in place of gray.
-//public static final String ANSI_RED_BACKGROUND = "\u001B[41m";  //in place of pale green
-//public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";   //in place of magenta
+const parser = require('html-parse');
 
-
-//Gray             \e[0;37m
-//Dark Gray        \e[1;30m
+const ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+const ANSI_GREEN_BACKGROUND = "\u001B[42m";
+const ANSI_CYAN_BACKGROUND = "\u001B[46m";
+const ANSI_BLUE_BACKGROUND = "\u001B[44m"; //alternative temporarily selected in place of gray.
+const ANSI_RED_BACKGROUND = "\u001B[41m";  //in place of pale green
+const ANSI_PURPLE_BACKGROUND = "\u001B[45m";   //in place of magenta
 
 
 //ensures empty folder `output` exists without fuss.
@@ -30,22 +28,18 @@ const options = {
 
 rp(options)
 	.then(function (data) {
-		// REQUEST SUCCEEDED: DO SOMETHING
-		//console.log(data);
+		let scrapedExample = data('.w3-example').text();
 
-		//data('.large').text()
-		// New York
+		let tree = parser.parse(scrapedExample);
 
-		//var test = data('span[style="color:brown"]').text();
-		//var test = data('span').text(); //result: .com×××HTML5HTMLHTML5HTMLHTMLHTMLHTMLHTML Tutorial××
-		//var test = data('h3');
-		//var test = data('span[style="color:brown"]').html();    //null
-		//var test = data('span[style="color:brown"]');    //1 item
-		var test = data('.w3-example').text();
-		//console.log(test);
+		let modifiedOutput;
 
+		tree.forEach(function (item, index) {
+			console.log (item);
+				modifiedOutput += item ;
+			});
 
-		fs.writeFile(path.join(__dirname, "output/GeneratedFile.txt"), test, function(err) {
+		fs.writeFile(path.join(__dirname, "output/GeneratedFile.txt"), modifiedOutput, function(err) {
 			if(err) {
 				return console.log(err);
 			}
