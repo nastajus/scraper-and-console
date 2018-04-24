@@ -1,6 +1,8 @@
 const rp = require('request-promise');
 const cheerio = require('cheerio');
-
+const fs = require('fs');
+const path = require('path');
+const mkdirp     = require('mkdirp');
 //public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
 //public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
 //public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
@@ -11,6 +13,10 @@ const cheerio = require('cheerio');
 
 //Gray             \e[0;37m
 //Dark Gray        \e[1;30m
+
+
+//ensures empty folder `output` exists without fuss.
+mkdirp(path.join(__dirname, 'output'));
 
 
 
@@ -36,7 +42,17 @@ rp(options)
 		//var test = data('span[style="color:brown"]').html();    //null
 		//var test = data('span[style="color:brown"]');    //1 item
 		var test = data('.w3-example').text();
-		console.log(test);
+		//console.log(test);
+
+
+		fs.writeFile(path.join(__dirname, "output/GeneratedFile.txt"), test, function(err) {
+			if(err) {
+				return console.log(err);
+			}
+
+			console.log("The file was saved!");
+		});
+
 
 
 
