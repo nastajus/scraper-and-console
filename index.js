@@ -1,12 +1,17 @@
 const rp = require('request-promise');
 const cheerio = require('cheerio');
 
-const YELLOW_COLOR = "#FDFF1D";
-const GREEN_COLOR = "#54FD01";
-const BLUE_COLOR = "#5AFEFE";
-const GRAY_COLOR = "#C0C0C0";
-const GREEN_PALE_COLOR = "#D1FFCC";
-const MAGENTA_COLOR = "#F51BFF";
+//public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+//public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+//public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+//public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m"; //alternative temporarily selected in place of gray.
+//public static final String ANSI_RED_BACKGROUND = "\u001B[41m";  //in place of pale green
+//public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";   //in place of magenta
+
+
+//Gray             \e[0;37m
+//Dark Gray        \e[1;30m
+
 
 
 const options = {
