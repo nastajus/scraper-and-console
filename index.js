@@ -3,7 +3,8 @@ const cheerio = require('cheerio');
 const fs = require('fs');
 const path = require('path');
 const mkdirp     = require('mkdirp');
-const parser = require('html-parse');
+const html = require('html-parse');
+
 
 const ANSI_YELLOW_BACKGROUND = "\u001B[43m";
 const ANSI_GREEN_BACKGROUND = "\u001B[42m";
@@ -30,16 +31,31 @@ rp(options)
 	.then(function (data) {
 		let scrapedExample = data('.w3-example').text();
 
-		let tree = parser.parse(scrapedExample);
+		console.log(scrapedExample);
 
-		let modifiedOutput;
+		let tree = html.parse(scrapedExample);
 
-		tree.forEach(function (item, index) {
-			console.log (item);
-				modifiedOutput += item ;
-			});
+		let modifiedOutput = "";
 
-		fs.writeFile(path.join(__dirname, "output/GeneratedFile.txt"), modifiedOutput, function(err) {
+		html.traverse(tree, function (node) {
+
+			//the following produces no output, still need to analyze why that is the case.
+			console.log(node.name);
+
+			//conditionally insert various colors on various tags here and build up modified string.
+			modifiedOutput += item ;
+		});
+
+		//currently, accepts input as TEXT, filtering out all the unnecessary ACTUAL HTML it's embedded inside of, leaving us pure text.
+		//next, needs conversion to html entity to be properly traversed over as DOM data.
+		//next, selectively and intelligently pick out specific complete enclosing tag sets, place on new lines (since I chose to strip out enclosing HTML earlier), and color by inserting characters as-needed.
+		//alternatively one could write low-level character-by-character iteration to find individual matching opening and closing tag sets, but that doesn't demonstrate the competency sought.
+		//need more time to accomplish this challenge as 99% of my work was backend in Java and Spring, and I only didn't need to traverse the DOM in my previous work, instead I mainly populated simplistic templates by iterating over bean objects in Freemarker templates.
+
+		//finally, the console aspect remains as well.
+
+
+		fs.writeFile(path.join(__dirname, "output/GeneratedFile.txt"), scrapedExample, function(err) {      //design intention is: replace scrapedExample with modifiedOutput, but not ready
 			if(err) {
 				return console.log(err);
 			}
